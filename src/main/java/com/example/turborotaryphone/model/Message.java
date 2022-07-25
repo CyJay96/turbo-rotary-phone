@@ -1,9 +1,6 @@
 package com.example.turborotaryphone.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -17,12 +14,20 @@ public class Message {
 
     private String tag;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
+
     public Message() {
     }
 
-    public Message(String text, String tag) {
+    public Message(String text, String tag, User user) {
         this.text = text;
         this.tag = tag;
+        this.user = user;
+    }
+
+    public String getUserName() {
+        return user != null ? user.getUsername() : "<none>";
     }
 
     public Long getId() {
@@ -49,17 +54,25 @@ public class Message {
         this.tag = tag;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return Objects.equals(id, message.id) && Objects.equals(text, message.text) && Objects.equals(tag, message.tag);
+        return Objects.equals(id, message.id) && Objects.equals(text, message.text) && Objects.equals(tag, message.tag) && Objects.equals(user, message.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, tag);
+        return Objects.hash(id, text, tag, user);
     }
 
     @Override
@@ -68,6 +81,7 @@ public class Message {
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", tag='" + tag + '\'' +
+                ", user=" + user +
                 '}';
     }
 
