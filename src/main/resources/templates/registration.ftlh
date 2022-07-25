@@ -5,7 +5,7 @@
     Add new user
 
     <div>
-        ${message!""}
+        ${message?if_exists}
     </div>
 
     <@l.login "/registration" />

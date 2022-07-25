@@ -17,6 +17,8 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    private String filename;
+
     public Message() {
     }
 
@@ -62,17 +64,25 @@ public class Message {
         this.user = user;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return Objects.equals(id, message.id) && Objects.equals(text, message.text) && Objects.equals(tag, message.tag) && Objects.equals(user, message.user);
+        return Objects.equals(id, message.id) && Objects.equals(text, message.text) && Objects.equals(tag, message.tag) && Objects.equals(user, message.user) && Objects.equals(filename, message.filename);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, tag, user);
+        return Objects.hash(id, text, tag, user, filename);
     }
 
     @Override
@@ -82,6 +92,7 @@ public class Message {
                 ", text='" + text + '\'' +
                 ", tag='" + tag + '\'' +
                 ", user=" + user +
+                ", filename='" + filename + '\'' +
                 '}';
     }
 
