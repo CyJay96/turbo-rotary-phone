@@ -1,17 +1,32 @@
 <#import "parts/common.ftlh" as c>
 
 <@c.page>
-    User editor
+    <h5>User editor</h5>
 
-    <form action="/user" method="post">
-        <input type="text" name="username" value="${user.username}">
-        <#list roles as role>
-            <div>
-                <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>
+    <div class="mt-3">
+        <form action="/user" method="post">
+            <div class="col-sm-2 mt-3">
+                <input class="form-control" type="text" name="username" value="${user.username}">
             </div>
-        </#list>
-        <input type="hidden" value="${user.id}" name="userId">
-        <input type="hidden" value="${_csrf.token}" name="_csrf">
-        <button type="submit">Save</button>
-    </form>
+            <div class="mt-3">
+                <#list roles as role>
+                    <div class="form-check">
+                        <input class="form-check-input" id="gridCheck1" type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>
+                        <label class="form-check-label" for="gridCheck1">
+                            ${role}
+                        </label>
+                    </div>
+                </#list>
+            </div>
+            <div class="mt-3">
+                <input type="hidden" value="${user.id}" name="userId">
+            </div>
+            <div class="mt-3">
+                <input type="hidden" value="${_csrf.token}" name="_csrf">
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
 </@c.page>
