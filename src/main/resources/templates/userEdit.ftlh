@@ -5,9 +5,27 @@
 
     <div class="mt-3">
         <form action="/user" method="post">
-            <div class="col-sm-2 mt-3">
-                <input class="form-control" type="text" name="username" value="${user.username}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">User Name:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="username" class="form-control" value="${user.username}" placeholder="User name"/>
+                </div>
             </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Password:</label>
+                <div class="col-sm-6">
+                    <input type="password" name="password" class="form-control" placeholder="Password"/>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-6">
+                    <input type="email" name="email" class="form-control" value="${user.email!''}" placeholder="email@example.com"/>
+                </div>
+            </div>
+
             <div class="mt-3">
                 <#list roles as role>
                     <div class="form-check">
@@ -18,12 +36,15 @@
                     </div>
                 </#list>
             </div>
+
             <div class="mt-3">
                 <input type="hidden" value="${user.id}" name="userId">
             </div>
+
             <div class="mt-3">
                 <input type="hidden" value="${_csrf.token}" name="_csrf">
             </div>
+
             <div class="mt-3">
                 <button class="btn btn-primary" type="submit">Save</button>
             </div>
