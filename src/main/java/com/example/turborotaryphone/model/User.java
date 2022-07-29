@@ -1,6 +1,5 @@
 package com.example.turborotaryphone.model;
 
-import com.sun.istack.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -24,12 +25,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
-    @NotNull
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     private boolean active;
@@ -42,9 +45,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, boolean active, Set<Role> roles) {
+    public User(String username, String password, String email, boolean active, Set<Role> roles) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.active = active;
         this.roles = roles;
     }
