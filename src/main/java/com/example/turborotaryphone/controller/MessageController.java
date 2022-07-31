@@ -2,9 +2,7 @@ package com.example.turborotaryphone.controller;
 
 import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.model.User;
-import com.example.turborotaryphone.repos.MessageRepo;
 import com.example.turborotaryphone.service.MessageService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,24 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
-public class MainController {
+public class MessageController {
 
     private final MessageService messageService;
-    private final MessageRepo messageRepo;
 
-    public MainController(MessageService messageService, MessageRepo messageRepo) {
+    public MessageController(MessageService messageService) {
         this.messageService = messageService;
-        this.messageRepo = messageRepo;
     }
-
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @GetMapping
     public String greeting() {
@@ -69,30 +60,14 @@ public class MainController {
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", message);
         } else {
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-                file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-                message.setFilename(resultFilename);
-            }
+            messageService.saveFile(message, file);
 
             model.addAttribute("message", null);
 
-            messageRepo.save(message);
+            messageService.save(message);
         }
 
-        Iterable<Message> messages = messageService.findAll();
-        model.addAttribute("messages", messages);
-
-        return "main";
+        return "redirect:/main";
     }
 
 }

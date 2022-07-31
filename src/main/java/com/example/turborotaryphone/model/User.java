@@ -1,5 +1,6 @@
 package com.example.turborotaryphone.model;
 
+import com.example.turborotaryphone.service.UserService;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ public class User implements UserDetails {
 
     @Email(message = "Email is not correct")
     @NotBlank(message = "Email cannot be empty")
+    @Pattern(regexp = UserService.emailRegex, message = "Email is not correct")
     private String email;
 
     private boolean active;

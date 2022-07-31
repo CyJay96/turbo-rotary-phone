@@ -1,7 +1,7 @@
 <#import "parts/common.ftlh" as c>
 
 <@c.page>
-    <h5>User editor</h5>
+    <h5>User Editor</h5>
 
     <div class="mt-3">
         <form action="/user" method="post">

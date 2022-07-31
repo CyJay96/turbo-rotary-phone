@@ -11,7 +11,7 @@
     </form>
 
     <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        Add new Message
+        Add new message
     </a>
 
     <div class="collapse <#if message??>show</#if>" id="collapseExample">
@@ -42,7 +42,7 @@
                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                 </div>
                 <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">Add message</button>
                 </div>
             </form>
         </div>
@@ -57,8 +57,8 @@
                     </#if>
 
                     <div class="m-2">
-                        <span>${message.text}</span>
-                        <i>${message.tag}</i>
+                        <span>${message.text}</span><br>
+                        <i>#${message.tag}</i>
                     </div>
 
                     <div class="card-footer text-muted">
@@ -70,5 +70,4 @@
             <div class="mt-10">No messages</div>
         </#list>
     </div>
-
 </@c.page>

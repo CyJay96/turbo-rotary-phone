@@ -12,14 +12,19 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/main">Messages</a>
+                    <a class="<#if user??>nav-link<#else>btn btn-outline-primary</#if>" aria-current="page" href="/main">
+                        <#if user??>Messages<#else>Sign In</#if>
+                    </a>
                 </li>
+
                 <#if isAdmin>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/user">User list</a>
                     </li>
                 </#if>
+
                 <#if user??>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/user/profile">Profile</a>
@@ -28,7 +33,9 @@
             </ul>
 
             <div class="navbar-text me-3">${name}</div>
-            <@l.logout />
+            <#if user??>
+                <@l.logout />
+            </#if>
         </div>
     </div>
 </nav>
