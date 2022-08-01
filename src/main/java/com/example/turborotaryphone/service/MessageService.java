@@ -3,6 +3,8 @@ package com.example.turborotaryphone.service;
 import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,12 +24,12 @@ public class MessageService {
         this.messageRepo = messageRepo;
     }
 
-    public Iterable<Message> findAll() {
-        return messageRepo.findAll();
+    public Page<Message> findAll(Pageable pageable) {
+        return messageRepo.findAll(pageable);
     }
 
-    public Iterable<Message> findByTag(String filter) {
-        return messageRepo.findByTag(filter);
+    public Page<Message> findByTag(String filter, Pageable pageable) {
+        return messageRepo.findByTag(filter, pageable);
     }
 
     public void save(Message message) {

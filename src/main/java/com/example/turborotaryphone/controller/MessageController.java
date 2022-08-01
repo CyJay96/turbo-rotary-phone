@@ -3,6 +3,10 @@ package com.example.turborotaryphone.controller;
 import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.model.User;
 import com.example.turborotaryphone.service.MessageService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,16 +37,19 @@ public class MessageController {
     }
 
     @GetMapping("/main")
-    public String find(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages;
+    public String find(@RequestParam(required = false, defaultValue = "") String filter,
+                       Model model,
+                       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Message> page;
 
         if (filter != null && !filter.isEmpty()) {
-            messages = messageService.findByTag(filter);
+            page = messageService.findByTag(filter, pageable);
         } else {
-            messages = messageService.findAll();
+            page = messageService.findAll(pageable);
         }
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";
