@@ -1,10 +1,7 @@
 package com.example.turborotaryphone.model;
 
 import com.example.turborotaryphone.service.UserService;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,10 +10,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
+@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -45,15 +44,22 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public User() {
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Message> messages;
 
-    public User(String username, String password, String email, boolean active, Set<Role> roles) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.active = active;
-        this.roles = roles;
+    @ManyToMany
+    @JoinTable(name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "channel_id") },
+            inverseJoinColumns = { @JoinColumn(name = "subscriber_id")} )
+    private Set<User> subscribers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "subscriber_id") },
+            inverseJoinColumns = { @JoinColumn(name = "channel_id")} )
+    private Set<User> subscriptions = new HashSet<>();
+
+    public User() {
     }
 
     public boolean isAdmin() {

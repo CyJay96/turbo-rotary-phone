@@ -10,64 +10,7 @@
         </div>
     </form>
 
-    <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        Add new message
-    </a>
+    <#include "parts/messageEdit.ftlh" />
 
-    <div class="collapse <#if message??>show</#if>" id="collapseExample">
-        <div class="mt-3">
-            <form action="/main" method="post" enctype="multipart/form-data">
-                <div class="mt-3">
-                    <input class="form-control ${(textError??)?string('is-invalid', '')}"
-                           value="<#if message??>${message.text}</#if>" type="text" name="text" placeholder="Enter a message">
-                    <#if textError??>
-                        <div class="invalid-feedback">
-                            ${textError}
-                        </div>
-                    </#if>
-                </div>
-                <div class="mt-3">
-                    <input class="form-control"
-                           value="<#if message??>${message.tag}</#if>" type="text" name="tag" placeholder="Enter a tag">
-                    <#if tagError??>
-                        <div class="invalid-feedback">
-                            ${tagError}
-                        </div>
-                    </#if>
-                </div>
-                <div class="mt-3">
-                    <input class="form-control" type="file" name="file">
-                </div>
-                <div class="mt-3">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                </div>
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Add message</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <#list messages as message>
-            <div class="col">
-                <div class="card m-3">
-                    <#if message.filename??>
-                        <img src="/img/${message.filename}" class="card-img-top" alt="${message.id}">
-                    </#if>
-
-                    <div class="m-2">
-                        <span>${message.text}</span><br>
-                        <i>#${message.tag}</i>
-                    </div>
-
-                    <div class="card-footer text-muted">
-                        ${message.userName}
-                    </div>
-                </div>
-            </div>
-        <#else>
-            <div class="mt-10">No messages</div>
-        </#list>
-    </div>
+    <#include "parts/messageList.ftlh" />
 </@c.page>

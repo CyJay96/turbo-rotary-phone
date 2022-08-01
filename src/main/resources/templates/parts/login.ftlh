@@ -1,3 +1,5 @@
+<#include "security.ftlh">
+
 <#macro login path isRegisterForm>
     <form action="${path}" method="post">
         <div class="row mb-3">
@@ -79,6 +81,6 @@
 <#macro logout>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <button type="submit" class="btn btn-primary ml-3">Sign Out</button>
+        <button type="submit" class="btn btn-primary ml-3"><#if user??>Sign Out<#else>Log In</#if></button>
     </form>
 </#macro>
