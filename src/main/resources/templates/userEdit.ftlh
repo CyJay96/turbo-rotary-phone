@@ -22,14 +22,16 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Email:</label>
                 <div class="col-sm-6">
-                    <input type="email" name="email" class="form-control" value="${user.email!''}" placeholder="email@example.com"/>
+                    <input type="email" name="email" class="form-control"
+                           value="${user.email!''}" placeholder="email@example.com"/>
                 </div>
             </div>
 
             <div class="mt-3">
                 <#list roles as role>
                     <div class="form-check">
-                        <input class="form-check-input" id="gridCheck1" type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>
+                        <input class="form-check-input" id="gridCheck1" type="checkbox"
+                               name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}/>
                         <label class="form-check-label" for="gridCheck1">
                             ${role}
                         </label>
@@ -38,11 +40,11 @@
             </div>
 
             <div class="mt-3">
-                <input type="hidden" value="${user.id}" name="userId">
+                <input type="hidden" value="${user.id}" name="userId"/>
             </div>
 
             <div class="mt-3">
-                <input type="hidden" value="${_csrf.token}" name="_csrf">
+                <input type="hidden" value="${_csrf.token}" name="_csrf"/>
             </div>
 
             <div class="mt-3">

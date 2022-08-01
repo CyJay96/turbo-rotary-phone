@@ -2,12 +2,12 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"/>
         <title>TutboRotaryPhone</title>
-        <link rel="stylesheet" href="/static/style.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/static/style.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"/>
         <!-- reCAPTCHA -->
         <script src="https://www.google.com/recaptcha/api.js"></script>
     </head>
