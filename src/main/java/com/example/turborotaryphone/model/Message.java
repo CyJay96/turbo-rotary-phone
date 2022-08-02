@@ -1,15 +1,16 @@
 package com.example.turborotaryphone.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.turborotaryphone.model.util.MessageHelper;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -32,6 +33,12 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    @ManyToMany
+    @JoinTable(name = "message_likes",
+            joinColumns = { @JoinColumn(name = "message_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") })
+    private Set<User> likes = new HashSet<>();
+
     public Message() {
     }
 
@@ -42,7 +49,7 @@ public class Message {
     }
 
     public String getUserName() {
-        return user != null ? user.getUsername() : "The author is unknown(";
+        return MessageHelper.getUserName(user);
     }
 
 }

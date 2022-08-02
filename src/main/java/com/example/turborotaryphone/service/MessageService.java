@@ -1,6 +1,8 @@
 package com.example.turborotaryphone.service;
 
 import com.example.turborotaryphone.model.Message;
+import com.example.turborotaryphone.model.User;
+import com.example.turborotaryphone.model.dto.MessageDto;
 import com.example.turborotaryphone.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,12 +26,16 @@ public class MessageService {
         this.messageRepo = messageRepo;
     }
 
-    public Page<Message> findAll(Pageable pageable) {
-        return messageRepo.findAll(pageable);
+    public Page<MessageDto> messageList(Pageable pageable, String filter, User user) {
+        if (filter != null && !filter.isEmpty()) {
+            return messageRepo.findByTag(filter, pageable, user);
+        } else {
+            return messageRepo.findAll(pageable, user);
+        }
     }
 
-    public Page<Message> findByTag(String filter, Pageable pageable) {
-        return messageRepo.findByTag(filter, pageable);
+    public Page<MessageDto> messageListForUser(Pageable pageable, User author, User currentUser) {
+        return messageRepo.findByUser(pageable, author, currentUser);
     }
 
     public void save(Message message) {

@@ -2,6 +2,7 @@ package com.example.turborotaryphone.controller;
 
 import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.model.User;
+import com.example.turborotaryphone.model.dto.MessageDto;
 import com.example.turborotaryphone.service.MessageService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,11 +12,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -39,14 +40,9 @@ public class MessageController {
     @GetMapping("/main")
     public String find(@RequestParam(required = false, defaultValue = "") String filter,
                        Model model,
-                       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Message> page;
-
-        if (filter != null && !filter.isEmpty()) {
-            page = messageService.findByTag(filter, pageable);
-        } else {
-            page = messageService.findAll(pageable);
-        }
+                       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+                       @AuthenticationPrincipal User user) {
+        Page<MessageDto> page = messageService.messageList(pageable, filter, user);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/main");
@@ -70,10 +66,9 @@ public class MessageController {
             model.addAttribute("message", message);
         } else {
             messageService.saveFile(message, file);
+            messageService.save(message);
 
             model.addAttribute("message", null);
-
-            messageService.save(message);
         }
 
         return "redirect:/main";
@@ -83,16 +78,18 @@ public class MessageController {
     public String userMessages(@AuthenticationPrincipal User currentUser,
                                @PathVariable User user,
                                @RequestParam(required = false) Message message,
-                               Model model) {
-        Set<Message> messages = user.getMessages();
+                               Model model,
+                               @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<MessageDto> page = messageService.messageListForUser(pageable, currentUser, user);
 
         model.addAttribute("userChannel", user);
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("subscribersCount", user.getSubscribers().size());
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
         model.addAttribute("message", message);
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
         model.addAttribute("isCurrentUser", currentUser.getId().equals(user.getId()));
+        model.addAttribute("url", "/user-messages/" + user.getId());
 
         return "userMessages";
     }
@@ -114,11 +111,32 @@ public class MessageController {
             }
 
             messageService.saveFile(message, file);
-
             messageService.save(message);
         }
 
         return "redirect:/user-messages/" + user;
+    }
+
+    @GetMapping("/messages/{message}/like")
+    public String like(@AuthenticationPrincipal User currentUser,
+                       @PathVariable Message message,
+                       RedirectAttributes redirectAttributes,
+                       @RequestHeader(required = false) String referer) {
+        Set<User> likes = message.getLikes();
+
+        if (likes.contains(currentUser)) {
+            likes.remove(currentUser);
+        } else {
+            likes.add(currentUser);
+        }
+
+        UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
+
+        components.getQueryParams()
+                .entrySet()
+                .forEach(pair -> redirectAttributes.addAttribute(pair.getKey(), pair.getValue()));
+
+        return "redirect:" + components.getPath();
     }
 
 }

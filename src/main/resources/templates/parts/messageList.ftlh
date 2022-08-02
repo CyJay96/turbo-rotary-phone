@@ -16,14 +16,27 @@
                     <i>#${message.tag}</i>
                 </div>
 
-                <div class="card-footer text-muted">
-                    <a href="/user-messages/${message.user.id}">${message.userName}</a>
-                    <#if message.user.id == currentUserId>
-                        <a href="/user-messages/${message.user.id}?message=${message.id}"
-                           class="btn btn-outline-primary">
-                            Edit
+                <div class="card-footer text-muted container">
+                    <div class="row">
+                        <a class="col align-self-center" href="/user-messages/${message.user.id}">${message.userName}</a>
+                        <a class="col align-self-center" href="/messages/${message.id}/like">
+                            <#if message.meLiked>
+                                <i class="fas fa-heart"></i>
+                            <#else>
+                                <i class="far fa-heart"></i>
+                            </#if>
+
+                            <#if message.likes != 0>
+                                ${message.likes}
+                            </#if>
                         </a>
-                    </#if>
+                        <#if message.user.id == currentUserId>
+                            <a href="/user-messages/${message.user.id}?message=${message.id}"
+                               class="col btn btn-outline-primary">
+                                Edit
+                            </a>
+                        </#if>
+                    </div>
                 </div>
             </div>
         </div>
