@@ -4,6 +4,7 @@ import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.model.User;
 import com.example.turborotaryphone.model.dto.MessageDto;
 import com.example.turborotaryphone.service.MessageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,13 +25,10 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
+@RequiredArgsConstructor
 public class MessageController {
 
     private final MessageService messageService;
-
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
 
     @GetMapping
     public String greeting() {

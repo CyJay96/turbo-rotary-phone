@@ -4,6 +4,7 @@ import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.model.User;
 import com.example.turborotaryphone.model.dto.MessageDto;
 import com.example.turborotaryphone.repos.MessageRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,16 +16,13 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class MessageService {
 
     @Value("${upload.path}")
     private String uploadPath;
 
     private final MessageRepo messageRepo;
-
-    public MessageService(MessageRepo messageRepo) {
-        this.messageRepo = messageRepo;
-    }
 
     public Page<MessageDto> messageList(Pageable pageable, String filter, User user) {
         if (filter != null && !filter.isEmpty()) {

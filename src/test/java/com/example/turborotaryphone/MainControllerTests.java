@@ -1,6 +1,5 @@
 package com.example.turborotaryphone;
 
-import com.example.turborotaryphone.controller.MessageController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,16 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithUserDetails("admin")
-@TestPropertySource("/application-test.properties")
+@TestPropertySource("/application-test.yml")
 @Sql(value = {"/create-user-before.sql", "/message-list-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/message-list-after.sql", "/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class MainControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private MessageController controller;
 
     @Test
     void mainPageTest() throws Exception {

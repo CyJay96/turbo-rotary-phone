@@ -1,0 +1,29 @@
+server:
+  port: 9090
+# DATABASE
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/turbo_rotary_phone?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=Europe/Minsk
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: false
+  # SESSION
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+  # FREEMARKER
+  freemarker:
+    expose-request-attributes: true
+
+# OTHERS
+upload:
+  path: ${UPLOAD_PATH:/c:/Users/user/Documents/Projects/turbo-rotary-phone/uploads}
+recaptcha:
+  url: ${RECAPTCHA_URL:https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s}
+  secret: ${RECAPTCHA_SECRET:6LdZvi8hAAAAAMFhAYHmJz-WAH3IyCvrEeudAUoa}

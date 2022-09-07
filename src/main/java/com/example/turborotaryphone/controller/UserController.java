@@ -3,6 +3,7 @@ package com.example.turborotaryphone.controller;
 import com.example.turborotaryphone.model.Role;
 import com.example.turborotaryphone.model.User;
 import com.example.turborotaryphone.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,13 +14,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
