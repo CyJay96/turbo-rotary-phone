@@ -4,14 +4,14 @@ import com.example.turborotaryphone.model.Message;
 import com.example.turborotaryphone.model.User;
 import com.example.turborotaryphone.model.util.MessageHelper;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
-@EqualsAndHashCode
-@ToString
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageDto {
 
     private Long id;
@@ -27,9 +27,6 @@ public class MessageDto {
     private Long likes;
 
     private Boolean meLiked;
-
-    public MessageDto() {
-    }
 
     public MessageDto(Message message, Long likes, Boolean meLiked) {
         this.id = message.getId();
